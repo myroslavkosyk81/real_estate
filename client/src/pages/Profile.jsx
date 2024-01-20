@@ -72,6 +72,7 @@ export default function Profile() {
            ) : (
               ""
           )}
+          
         </p>
         <input type="text" placeholder="username" id="username"
         className="border p-3 rounded-lg" />
