@@ -15,6 +15,8 @@ import {
     FaShare,
   } from 'react-icons/fa';
 import Contact from "../components/Contact";
+import '../i18n.js';
+import { useTranslation } from 'react-i18next';
 
 export default function Listing() {
     SwiperCore.use([Navigation]);
@@ -24,6 +26,7 @@ export default function Listing() {
     const [copied, setCopied] = useState(false);
     const [contact, setContact] = useState(false);
     const { currentUser } = useSelector((state) => state.user);
+    const { t } = useTranslation();
     
     const params = useParams();
     useEffect(() => {
@@ -53,8 +56,8 @@ export default function Listing() {
     
   return (
     <main>
-        {loading && <p className="text-center my-7 text-2xl" > Loading... </p>}
-        {error && <p className="text-center my-7 text-2xl" > Something went wrong! </p>}
+        {loading && <p className="text-center my-7 text-2xl" >{t('listing.loading')}</p>}
+        {error && <p className="text-center my-7 text-2xl" >{t('listing.load_error')}</p>}
         {listing && !loading && !error && (
             <div>
                 <Swiper navigation>
@@ -62,7 +65,7 @@ export default function Listing() {
                     (
                         <SwiperSlide key={url}>
                             {/* <div className="h-[550px]" style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'cover'}}> */}
-                            <div className="h-[450px]" style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'contain'}}>
+                            <div className="h-[450px] mt-2" style={{ background: `url(${url}) center no-repeat`, backgroundSize: 'contain'}}>
                             </div>
                         </SwiperSlide>
                     ))}
@@ -85,7 +88,7 @@ export default function Listing() {
                 </div>
                 {copied && (
                     <p className='fixed top-[23%] right-[5%] z-10 rounded-md bg-slate-100 p-2'>
-                    Link copied!
+                    {t('listing.link_copy')}
                     </p>
                 )}
 
@@ -104,42 +107,42 @@ export default function Listing() {
                 </p>
                 <div className='flex gap-4'>
                     <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                        {listing.type === 'rent' ? 'For Rent' : 'For Sale'}
+                        {listing.type === 'rent' ? <span>{t('listing.for_rent')}</span> : <span>{t('listing.for_sale')}</span>}
                     </p>
                     {
                         listing.offer && (
                             <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                                ${+listing.regularPrice - +listing.discountPrice} OFF
+                                ${+listing.regularPrice - +listing.discountPrice} {t('listing.off')}
                             </p>
                         )
                     }
                 </div>
                 <p className="text-slate-800">
                     <span className="font-semibold text-black">
-                        Description - {' '}
+                    {t('listing.description')} {' '}
                     </span>
                     {listing.description}
                 </p>
                 <ul className="text-green-900 font-semibold text-sm flex flex-wrap items-center gap-4 sm:gap-6">
                     <li className="flex items-center gap-1 whitespace-nowrap">
                         <FaBed className="text-lg" />
-                        {listing.bedrooms > 1 ? `${listing.bedrooms} beds` : `${listing.bedrooms} bed`}
+                        {listing.bedrooms > 1 ? `${listing.bedrooms} ${t('listing.beds')}` : `${listing.bedrooms} ${t('listing.bed')}`}
                     </li>
                     <li className="flex items-center gap-1 whitespace-nowrap">
                         <FaBed className="text-lg" />
-                        {listing.bathrooms > 1 ? `${listing.bathrooms} baths` : `${listing.bathrooms} bath`}
+                        {listing.bathrooms > 1 ? `${listing.bathrooms} ${t('listing.baths')}` : `${listing.bathrooms} ${t('listing.bath')}`}
                     </li>
                     <li className="flex items-center gap-1 whitespace-nowrap">
                         <FaParking className="text-lg" />
-                        {listing.parking > 1 ? 'Parking spot' : 'No parking'}
+                        {listing.parking > 1 ? `${t('listing.parking')}` : `${t('listing.no_parking')}`}
                     </li>
                     <li className="flex items-center gap-1 whitespace-nowrap">
                         <FaChair className="text-lg" />
-                        {listing.furnished > 1 ? 'Furnished' : 'Unfurnished'}
+                        {listing.furnished > 1 ? `${t('listing.furnished')}` : `${t('listing.unfurnished')}`}
                     </li>
                 </ul>
                 {currentUser && listing.userRef !== currentUser._id && !contact && (
-                    <button onClick={() => setContact(true)} className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">Contact landlord</button>
+                    <button onClick={() => setContact(true)} className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3">{t('listing.contact')}</button>
                 )}
                 {contact && <Contact listing={listing} />}
                 

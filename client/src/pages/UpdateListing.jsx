@@ -4,6 +4,9 @@ import { app } from '../firebase';
 import {useSelector} from 'react-redux';
 import {useNavigate, useParams} from 'react-router-dom';
 
+import '../i18n.js';
+import { useTranslation } from 'react-i18next';
+
 export default function CreateListing() {
     const {currentUser} = useSelector(state => state.user);
     const navigate = useNavigate();
@@ -28,6 +31,9 @@ export default function CreateListing() {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { t } = useTranslation();
+
     useEffect(()=>{
         const fetchListing = async () => {
             const listingId = params.listingId;
@@ -144,20 +150,20 @@ export default function CreateListing() {
     }
 
   return (
-    <main className='p-3 max-w-4xl mx-auto'>
+    <main className='p-3 max-w-4xl mx-auto h-[calc(100vh_-_14vh)]'>
         <h1 className='text-3xl font-semibold text-center my-7'>
-            Update a Listing</h1>
+        {t('upd_list.update')}</h1>
         <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
             <div className='flex flex-col gap-4 flex-1'>
-                <input type="text" placeholder='Name' className='border p-3
+                <input type="text" placeholder={t('upd_list.name')} className='border p-3
                 rounded-lg' id='name' maxLength='62' minLength='7' required
                 onChange={handleChange}
                 value={formData.name} />
 
-                <textarea type="text" placeholder='Description' className='border p-3
+                <textarea type="text" placeholder={t('upd_list.description')} className='border p-3
                 rounded-lg' id='description' required onChange={handleChange} value={formData.description} />
 
-                <input type="text" placeholder='Address' className='border p-3
+                <input type="text" placeholder={t('upd_list.address')} className='border p-3
                 rounded-lg' id='address' required
                 onChange={handleChange} value={formData.address} />
 
@@ -166,31 +172,31 @@ export default function CreateListing() {
                         <input type="checkbox" id='sale' className='w-5'
                         onChange={handleChange} 
                         checked={formData.type === 'sale'} />
-                        <span>Sell</span>
+                        <span>{t('upd_list.sale')}</span>
                     </div>
                     <div className='flex gap-2'>
                         <input type="checkbox" id='rent' className='w-5'
                         onChange={handleChange} 
                         checked={formData.type === 'rent'} />
-                        <span>Rent</span>
+                        <span>{t('upd_list.rent')}</span>
                     </div>
                     <div className='flex gap-2'>
                         <input type="checkbox" id='parking' className='w-5'
                         onChange={handleChange}
                         checked={formData.parking} />
-                        <span>Parking spot</span>
+                        <span>{t('upd_list.parking')}</span>
                     </div>
                     <div className='flex gap-2'>
                         <input type="checkbox" id='furnished' className='w-5'
                         onChange={handleChange}
                         checked={formData.furnished}  />
-                        <span>Furnished</span>
+                        <span>{t('upd_list.furnished')}</span>
                     </div>
                     <div className='flex gap-2'>
                         <input type="checkbox" id='offer' className='w-5'
                         onChange={handleChange}
                         checked={formData.offer}  />
-                        <span>Offer</span>
+                        <span>{t('upd_list.offer')}</span>
                     </div>
                 </div>
                 <div className='flex flex-wrap gap-6'>
@@ -199,14 +205,14 @@ export default function CreateListing() {
                         className='p-3 border border-gray-300 rounded-lg'
                         onChange={handleChange} 
                         value={formData.bedrooms} />
-                        <p>Beds</p>
+                        <p>{t('upd_list.beds')}</p>
                     </div>
                     <div className='flex items-center gap-2'>
                         <input type="number" id="bathrooms" min='1' max='10' required
                         className='p-3 border border-gray-300 rounded-lg'
                         onChange={handleChange} 
                         value={formData.bathrooms} />
-                        <p>Baths</p>
+                        <p>{t('upd_list.bath')}</p>
                     </div>
                     <div className='flex items-center gap-2'>
                         <input type="number" id="regularPrice" min='50' max='1000000' required
@@ -214,8 +220,8 @@ export default function CreateListing() {
                         onChange={handleChange} 
                         value={formData.regularPrice} />
                         <div  className='flex flex-col items-center'>
-                           <p>Regular price</p> 
-                           <span className='text-xs'>($ per month)</span>
+                           <p>{t('upd_list.reg_price')}</p> 
+                           <span className='text-xs'>{t('upd_list.per_month')}</span>
                         </div>
                         
                     </div>
@@ -226,8 +232,9 @@ export default function CreateListing() {
                         onChange={handleChange}
                         value={formData.discountPrice} />
                         <div className='flex flex-col items-center'>
-                            <p>Discounted price</p>
-                            <span className='text-xs'>($ per month)</span>
+                            <p>{t('upd_list.disc_price')}</p>
+                            <span className='text-xs'>
+                                {t('upd_list.per_month')}</span>
                         </div>
                         
                     </div>
@@ -236,9 +243,8 @@ export default function CreateListing() {
                 </div>
             </div>
             <div className='flex flex-col flex-1 gap-4'>
-                <p className='font-semibold'>Images:
-                <span className='font-normal text-gray-600 ml-2'>The first
-                image will be cover (max6)</span>
+                <p className='font-semibold'>{t('upd_list.images')}
+                <span className='font-normal text-gray-600 ml-2'>{t('upd_list.images_cover')}</span>
                 </p>
                 <div className='flex gap-4'>
                     <input onChange={(e) => setFiles(e.target.files)} 
@@ -248,7 +254,7 @@ export default function CreateListing() {
                     <button type='button' disabled={uploading} onClick={handleImageSubmit} className='p-3
                      text-green-700 border border-green-700 rounded
                     uppercase hover:shadow-lg disabled:opacity-80'>
-                        {uploading? 'Uploading...' : 'Upload'}
+                        {uploading? <span>{t('create_list.uploading')}</span> : <span>{t('create_list.upload')}</span>}
                     </button>
                 </div>
                 <p className='text-red-700 text-sm'>
@@ -261,13 +267,13 @@ export default function CreateListing() {
                             object-contain rounded-lg '/>
                             <button type='button' onClick={() => 
                             handleRemoveImage(index)} className='p-3 text-red-700 rounded-lg uppercase
-                            hover:opacity-75'>Delete</button>
+                            hover:opacity-75'>{t('upd_list.delete_image')}</button>
                         </div>
                     ))
                 }
                 <button disabled={loading || uploading} className='p-3 bg-slate-700 text-white rounded-lg uppercase
                 hover:opacity-95 disabled:opacity-80'>
-                    {loading ? 'Updating...' :  'Update Listing'}
+                    {loading ? <span>{t('upd_list.updating')}</span> : <span>{t('upd_list.update_button')}</span>}
                 </button>
                 {error && <p className='text-red-700 text sm'>{error}
                 </p>}

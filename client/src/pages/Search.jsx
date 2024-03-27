@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
+import '../i18n.js';
+import { useTranslation } from 'react-i18next';
 
 export default function Search() {
    const navigate = useNavigate();
@@ -18,6 +20,8 @@ export default function Search() {
    // console.log(sidebarData)
    // console.log(listings)
    const [showMore, setShowMore] =  useState(false);
+
+   const { t } = useTranslation();
 
    useEffect(() =>{
       const urlParams = new URLSearchParams(location.search);
@@ -115,73 +119,73 @@ export default function Search() {
     <div className='flex flex-col md:flex-row'>
       <div className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
          <form onSubmit={handleSubmit} className='flex flex-col gap-6'>
-            <div className='flex items-center gap-2'>
-               <label className='whitespace-nowrap font-semibold'>Search Term:</label>
+            <div className='flex flex-col md:flex-row items-center gap-2'>
+               <label className='whitespace-nowrap font-semibold'>{t('search.term')}</label>
                
-               <input type="text" id='searchTerm' placeholder='Search...' className='border rounded-lg p-3 w-full' 
+               <input type="text" id='searchTerm' placeholder={t('search.search')} className='border rounded-lg p-3 w-full' 
                value={sidebarData.searchTerm} onChange={handleChange} />
             </div>
             <div className='flex gap-2 flex-wrap items-center'>
-               <label className='font-semibold'>Type:</label>
+               <label className='font-semibold'>{t('search.type')}</label>
                <div className='flex gap-2'>
                   <input type="checkbox" id='all' className='w-5'
                   onChange={handleChange} checked={sidebarData.type === 'all'} />
-                  <span>Rent & Sale</span>
+                  <span>{t('search.rent_sale')}</span>
                </div>
                <div className='flex gap-2'>
                   <input type="checkbox" id='rent' className='w-5'
                   onChange={handleChange} checked={sidebarData.type === 'rent'} />
-                  <span>Rent</span>
+                  <span>{t('search.rent')}</span>
                </div>
                <div className='flex gap-2'>
                   <input type="checkbox" id='sale' className='w-5'
                   onChange={handleChange} checked={sidebarData.type === 'sale'} />
-                  <span>Sale</span>
+                  <span>{t('search.sale')}</span>
                </div>
                <div className='flex gap-2'>
                   <input type="checkbox" id='offer' className='w-5'
                   onChange={handleChange} checked={sidebarData.offer} />
-                  <span>Offer</span>
+                  <span>{t('search.offer')}</span>
                </div>
             </div>
             
             <div className='flex gap-2 flex-wrap items-center'>
-               <label className='font-semibold'>Amenities:</label>
+               <label className='font-semibold'>{t('search.amenities')}</label>
                <div className='flex gap-2'>
                   <input type="checkbox" id='parking' className='w-5'
                   onChange={handleChange} checked={sidebarData.parking} />
-                  <span>Parking</span>
+                  <span>{t('search.parking')}</span>
                </div>
                <div className='flex gap-2'>
                   <input type="checkbox" id='furnished' className='w-5'
                   onChange={handleChange} checked={sidebarData.furnished} />
-                  <span>Furnished</span>
+                  <span>{t('search.furnished')}</span>
                </div>
             </div>
             
             <div className='flex items-center gap-2'>
-               <label className='font-semibold'>Sort:</label>
+               <label className='font-semibold'>{t('search.sort')}</label>
                <select onChange={handleChange} defaultValue={'created_at_desc'}
                 id="sort_order" className='border rounded-lg p-3'>
-                  <option value='regularPrice_desc'>Price hight to low</option>
-                  <option value='regularPrice_asc'>Price low to hight</option>
-                  <option value='createdAt_desc'>Latest</option>
-                  <option value='createdAt_asc'>Oldest</option>
+                  <option value='regularPrice_desc'>{t('search.hight_low')}</option>
+                  <option value='regularPrice_asc'>{t('search.low_hight')}</option>
+                  <option value='createdAt_desc'>{t('search.latest')}</option>
+                  <option value='createdAt_asc'>{t('search.oldest')}</option>
                </select>
             </div>
 
-            <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>Search</button>
+            <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>{t('search.search_button')}</button>
          </form>
       </div>
 
       <div className='flex-1'>
-         <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>Listing results:</h1>
+         <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>{t('search.results')}</h1>
          <div className='p-7 flex flex-wrap gap-4'>
             {!loading && listings.length === 0 && (
-               <p className='text-xl text-slate-700'>No listing found</p>
+               <p className='text-xl text-slate-700'>{t('search.no_result')}</p>
             )}
             {loading && (
-               <p className='text-xl text-slate-700 text-center w-full'>Loading...</p>
+               <p className='text-xl text-slate-700 text-center w-full'>{t('search.loading')}</p>
             )}
             {!loading && listings && listings.map((listing) => (
                <ListingItem key={listing._id} listing={listing} />
@@ -189,7 +193,7 @@ export default function Search() {
             {showMore && (
                <button onClick={onShowMoreClick}
                className='text-green-700 hover:underline p-7 text-center w-full'>
-                  Show more
+                  {t('search.more')}
                </button>
             )}
          </div>

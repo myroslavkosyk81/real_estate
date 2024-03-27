@@ -8,6 +8,8 @@ import { updateUserStart, updateUserSuccess, updateUserFailure,
 // import { useDispatch } from "react-redux";
 import {Link} from 'react-router-dom';
 import "./profile.css"
+import '../i18n.js';
+import { useTranslation } from 'react-i18next';
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -21,6 +23,7 @@ export default function Profile() {
   // const [(userListings, setUserListings)] = useState([]);
   const [userLististings, setUserListings] = useState([]);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   
   // allow read;
   // allow write: if 
@@ -145,7 +148,7 @@ export default function Profile() {
   return (
     <div className="p-3 max-w-lg mx-auto">
 
-      <h1 className='text-3xl font-semibold text-center my-3'>Profile</h1>
+      <h1 className='text-3xl font-semibold text-center my-3'>{t('profile.title')}</h1>
 
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
 
@@ -157,27 +160,26 @@ export default function Profile() {
         <p className="text-sm self-center">
           {fileUploadError ? (
           <span className="text-red-700">
-            Error image upload (image must be less than 5 MB)
+            {t('profile.err_image')}
           </span> 
           ) : filePerc > 0 && filePerc < 100 ? (
             <span className="text-slate-700">{`Uploading ${filePerc}%`}</span>
           ) : filePerc === 100 ? (
-              <span className="text-green-700">Image successfully
-              uploaded</span>
+              <span className="text-green-700">{t('profile.image_success')}</span>
            ) : (
               ""
           )}
           
         </p>
-        <input type="text" placeholder="username" defaultValue={currentUser.username}
+        <input type="text" placeholder={t('profile.username')} defaultValue={currentUser.username}
         id="username"
         className="border p-3 rounded-lg" onChange={handleChange} />
 
-        <input type="email" placeholder="email" id="email"
+        <input type="email" placeholder={t('profile.email')} id="email"
         defaultValue={currentUser.email}
         className="border p-3 rounded-lg" onChange={handleChange} />
 
-        <input type="password" placeholder="password" id="password"
+        <input type="password" placeholder={t('profile.password')} id="password"
         className="border p-3 rounded-lg" onChange={handleChange} />
 
         <div className="field flex flex-col columns-1 max-h-14">
@@ -195,11 +197,11 @@ export default function Profile() {
         <button disabled={loading}
         className="bg-slate-700 text-white rounded-lg p-3
         uppercase hover:opacity-95 disabled:opacity-85">
-          {loading ? 'Loading...' : 'Update'}</button>
+          {loading ? <span>{t('profile.loading')}</span> : <span>{t('profile.update')}</span>}</button>
       
         <Link className="bg-green-700 text-white 
         p-3 rounded-lg uppercase text-center 
-        hover:opacity-95" to={"/create-listing"}>Create Listing
+        hover:opacity-95" to={"/create-listing"}>{t('profile.create_listing')}
         </Link>
 
       </form>
@@ -207,22 +209,22 @@ export default function Profile() {
       <div className="flex justify-between mt-5">
         <span onClick={handleDeleteUser}
           className="text-red-700 cursor-pointer">
-          Delete account</span>
+          {t('profile.delete_account')}</span>
         <span onClick={handleSignOut}
-          className="text-red-700 cursor-pointer">Sign out</span>
+          className="text-red-700 cursor-pointer">{t('profile.sign_out')}</span>
       </div>
       <p className="text-red-700 mt-5">{error ? error : ''}</p>
       <p className="text-green-700 mt-5">{updateSuccess ? 
-      'User is updated successfully' : ''}</p>
+      <span>{t('profile.user_updated')}</span> : ''}</p>
       
-      <button onClick={handleShowListings} className="text-green-700 w-full">Show listings</button>
+      <button onClick={handleShowListings} className="text-green-700 w-full">{t('profile.show_listing')}</button>
       
-      <p className="text-red-700 mt-5">{showListingsError ? 'Error showing Listings' : ''}</p>
+      <p className="text-red-700 mt-5">{showListingsError ? <span>{t('profile.err_show_listing')}</span> : ''}</p>
       
       {userLististings && userLististings.length > 0 && 
 
         <div className="flex flex-col gap-4">
-          <h1 className="text-center mt-7 text-2xl font-semibold">Your Listings ({userLististings.length})</h1>
+          <h1 className="text-center mt-7 text-2xl font-semibold">{t('profile.your_listings')} ({userLististings.length})</h1>
           {userLististings.map((listing) => (
             <div key={listing._id} className="border rounded-lg p-3 flex justify-between items-center gap-4">
               <Link to={`/listing/${listing._id}`}>
@@ -232,10 +234,10 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div className="flex flex-col items-center">
-                <button onClick={() => handleListingDelete(listing._id)} className="text-red-700 uppercase">Delete</button>
+                <button onClick={() => handleListingDelete(listing._id)} className="text-red-700 uppercase">{t('profile.delete')}</button>
                 
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
+                  <button className="text-green-700 uppercase">{t('profile.edit')}</button>
                 </Link>
                 
               </div>

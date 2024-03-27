@@ -5,6 +5,8 @@ import { Navigation } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import 'swiper/css/bundle';
 import ListingItem from '../components/ListingItem';
+import '../i18n.js';
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
@@ -12,6 +14,9 @@ export default function Home() {
   const [rentListings, setRentListings] = useState([]);
   SwiperCore.use([Navigation]);
   console.log(offerListings)
+
+  const { t } = useTranslation();
+  
 
   useEffect(() => {
     const fetchOfferListings = async () =>{
@@ -54,17 +59,17 @@ export default function Home() {
       {/* top */}
       <div className='flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto'>
         <h1 className='text-slate-700 font-bold text-3xl lg:text-6xl'>
-          Find your next <span className='text-slate-500'>perfect</span>
+          {t('home.find1')} <span className='text-slate-500'>{t('home.find2')}</span>
           <br />
-          place with ease
+          {t('home.find3')}
         </h1>
         <div className='text-gray-400 text-xs sm:text-sm'>
-          BestDomivka is the best place to find your perfect place to live
+        {t('home.place')}
           <br />
-          Biggest range of properties to choose from, and easy search.
+          {t('home.range')}
         </div>
-        <Link to={'/search'} className='text-xs sm:text-sm text-blue-800 font-bold hover:underline'>
-          Let's get started
+        <Link to={'/search'} className='text-xs sm:text-xl text-blue-800 font-bold hover:underline'>
+        {t('home.get_started')}
         </Link>
       </div>
 
@@ -81,6 +86,7 @@ export default function Home() {
       }
       </Swiper>
       
+     
 
       {/* listing resuits */}
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10'>
@@ -88,9 +94,9 @@ export default function Home() {
           offerListings && offerListings.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent offers</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>{t('home.recent_offers')}</h2>
                 <Link className='text-sm text-blue-800 hover:underline' to={'/search?offer=true'}>
-                  Show more offers
+                {t('home.more_offers')}
                 </Link>
               </div>
 
@@ -109,9 +115,9 @@ export default function Home() {
           rentListings && rentListings.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent places for rent</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>{t('home.recent_rent')}</h2>
                 <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=rent'}>
-                  Show more places for rent
+                {t('home.more_rent')}
                 </Link>
               </div>
 
@@ -130,9 +136,9 @@ export default function Home() {
           saleListings && saleListings.length > 0 && (
             <div>
               <div className='my-3'>
-                <h2 className='text-2xl font-semibold text-slate-600'>Recent places for sale</h2>
+                <h2 className='text-2xl font-semibold text-slate-600'>{t('home.recent_sale')}</h2>
                 <Link className='text-sm text-blue-800 hover:underline' to={'/search?type=sale'}>
-                  Show more places for sale
+                  {t('home.more_sale')}
                 </Link>
               </div>
 
