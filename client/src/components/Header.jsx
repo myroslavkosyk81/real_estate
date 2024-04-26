@@ -38,7 +38,7 @@ export default function Header() {
   let [open, setOpen] =useState(false);
 
   return (
-    <header className='bg-slate-200 shadow-md  w-full top-0 left-0'>
+    <header className='bg-slate-200 shadow-md fixed w-full top-0 left-0'>
         
         <div className='shadow-md w-full fixed top-0 left-0'>
            <div className='md:flex items-center justify-between bg-slate-200 py-4 md:px-10 px-7'>

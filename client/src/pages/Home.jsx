@@ -78,7 +78,7 @@ export default function Home() {
         {
         offerListings && offerListings.length > 0 && offerListings.map((listing) =>(
           <SwiperSlide key={listing._id}>
-            <div style={{background: `url(${listing.imageUrls[0] || "https://www.bankrate.com/2020/10/02105002/What_are_real_estate_comps.jpg?auto=webp&optimize=high&crop=16:9&width=912"}) center no-repeat`, backgroundSize:'cover'}} className='h-[500px]' key={listing._id}>
+            <div style={{background: `url(${listing.imageUrls[0] || "https://www.bankrate.com/2020/10/02105002/What_are_real_estate_comps.jpg?auto=webp&optimize=high&crop=16:9&width=912"}) center no-repeat`, backgroundSize:'cover'}} className='h-[500px] bg-local' key={listing._id}>
 
             </div>
           </SwiperSlide>
