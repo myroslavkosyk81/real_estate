@@ -21,10 +21,11 @@ export default function Home() {
   useEffect(() => {
     const fetchOfferListings = async () =>{
       try {
-        const res = await fetch('http://localhost:3000/api/listing/get?offer=true&limit=4', {
-    mode: "no-cors",
-    
-});
+        const res = await fetch('/api/listing/get?offer=true&limit=4', {
+          mode: "no-cors",
+          method: "GET",
+
+      });
         const data = await res.json();
         setOfferListings(data);
         fetchRentListings();
@@ -35,10 +36,11 @@ export default function Home() {
 
     const fetchRentListings = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/listing/get?type=rent&limit=4', {
-    mode: "no-cors",
-    
-});
+        const res = await fetch('/api/listing/get?type=rent&limit=4', {
+          mode: "no-cors",
+          method: "GET",
+          
+      });
         const data = await res.json();
         setRentListings(data);
         fetchSaleListings();
@@ -49,10 +51,11 @@ export default function Home() {
 
     const fetchSaleListings = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/listing/get?type=sale&limit=4', {
-    mode: "no-cors",
-    
-});
+        const res = await fetch('/api/listing/get?type=sale&limit=4', {
+          mode: "no-cors",
+          method: "GET",
+          
+      });
         const data = await res.json();
         setSaleListings(data);
       } catch (error) {
